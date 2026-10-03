@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# API
+api/dist/
+api/data/*.json
+!api/data/.gitkeep
+
+# Web (Next.js)
+web/.next/
+web/out/
+web/build
+web/.vercel
+web/next-env.d.ts
+
+# Environment
+.env
+.env*.local
+
+# Logs & debug
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Testing
+coverage/
+
+# TypeScript
+*.tsbuildinfo
+
+# OS & misc
+.DS_Store
+*.pem
+*.sh
+
+# Tooling (local only)
+.cursor/
+.husky/
