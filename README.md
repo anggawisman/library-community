@@ -11,7 +11,24 @@ cd D:/DEVELOPMENT/shared
 docker compose up -d
 ```
 
-## Quick start
+## Docker Compose (API + web on shared Postgres network)
+
+Start shared Postgres first, then this stack. The API joins external network `dev-shared` and connects to host `dev-postgres`.
+
+```bash
+cd D:/DEVELOPMENT/shared
+docker compose up -d
+
+cd D:/DEVELOPMENT/LIBRARY/community-member-shelves
+cp .env.docker.example .env   # optional
+docker compose up --build
+```
+
+- Web: `http://localhost:3000`
+- API: `http://localhost:4000`
+- Inside the API container, `DATABASE_URL` uses `dev-postgres:5432` (not `localhost:5433`).
+
+## Quick start (local Node)
 
 ### API
 

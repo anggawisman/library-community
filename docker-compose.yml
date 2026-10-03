@@ -1,0 +1,41 @@
+# Joins the shared Postgres stack (D:/DEVELOPMENT/shared):
+#   cd D:/DEVELOPMENT/shared && docker compose up -d
+# Network `dev-shared` must exist before starting the API service.
+
+name: community-member-shelves
+
+services:
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: cms-api
+    restart: unless-stopped
+    ports:
+      - "${API_PORT:-4000}:4000"
+    environment:
+      PORT: "4000"
+      JWT_SECRET: ${JWT_SECRET:-dev-community-shelves-secret}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-dev}:${POSTGRES_PASSWORD:-dev}@dev-postgres:5432/${POSTGRES_DB:-community_member_shelves}
+    networks:
+      - dev-shared
+    volumes:
+      - ./api/src:/app/src
+
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    container_name: cms-web
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:4000}
+    depends_on:
+      - api
+
+networks:
+  dev-shared:
+    external: true
+    name: dev-shared
